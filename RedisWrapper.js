@@ -52,6 +52,34 @@ let Store = class {
         }
     }
 
+    exists(slackId){
+        return new Promise((resolve, reject) => {
+            client.exists(slackId, (err, result) => {
+                if(err){
+                    reject(resolve);
+                }
+                const isExists = result == "1"? true:false;
+                resolve(isExists);
+            });
+        });
+    };
+
+    delete(key) {
+        try {
+            console.log("[redis.delete]start");
+            console.log("[redis.delete]key :" + key);
+            client.del(key);
+        } catch (error) {
+            throw(error)
+        }
+    }
+
+    rename(originKey, rename) {
+        console.log("[redis.rename]start");
+        console.log("[redis.rename]originKey :" + originKey+", rename: "+rename);
+        client.rename(originKey, rename);
+    }
+
 }
 
 // module.exports = Store;
